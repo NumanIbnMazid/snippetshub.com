@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from safedelete.models import SafeDeleteModel, SOFT_DELETE_CASCADE
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -97,7 +98,10 @@ class User(SafeDeleteModel, AbstractBaseUser, PermissionsMixin):
         ordering = ["-date_joined"]
 
     def get_absolute_url(self):
-        return "/users/%i/" % (self.slug)
+        return f"/users/{self.get_dynamic_username()}-{self.slug}/"
+    
+    # def get_absolute_url(self):
+    #     return reverse("profile_details", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.get_dynamic_username()

@@ -41,6 +41,7 @@ services:
     command: sh -c "poetry run python manage.py makemigrations &&
                     poetry run python manage.py migrate &&
                     poetry run python manage.py initiate_admin &&
+                    poetry run python manage.py initiate_site &&
                     poetry run python manage.py collectstatic --noinput &&
                     poetry run gunicorn config.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:${APP_PORT}"
     volumes:

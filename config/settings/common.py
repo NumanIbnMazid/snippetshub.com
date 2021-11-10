@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     # Django WhiteNoise
     "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 ] + THIRD_PARTY_APPS + LOCAL_APPS
 
 
@@ -129,7 +131,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 HOME_URL = "/"
 ADMIN_LOGIN_URL = "/admin/login"
-LOGIN_URL = "/api/login"
+LOGIN_URL = ADMIN_LOGIN_URL
+SITE_DOMAIN="snippetshub.com"
 
 
 """ # Project Third Party Packages Configurations # """
