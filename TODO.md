@@ -1,4 +1,4 @@
-# snippetshub.com Standart Todo List
+# snippetshub.com Standard Todo List
 
 * Implement Django Sitemap Feature (SEO Purpose)
 

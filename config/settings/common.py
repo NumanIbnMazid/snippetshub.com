@@ -35,11 +35,18 @@ else:
 THIRD_PARTY_APPS = [
     # Django Safe Delete
     "safedelete",
+    # Django Debug Toolbar
+    "debug_toolbar",
+    # Django Crispy Forms
+    "crispy_forms",
+    # Django Widget Tweaks
+    "widget_tweaks",
 ]
 
 LOCAL_APPS = [
     "utils",
     "users",
+    "youtube",
 ]
 
 INSTALLED_APPS = [
@@ -70,6 +77,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Django Debug Toolbar Middleware
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 """ *** Template Definitions *** """
@@ -133,6 +142,9 @@ HOME_URL = "/"
 ADMIN_LOGIN_URL = "/admin/login"
 LOGIN_URL = ADMIN_LOGIN_URL
 SITE_DOMAIN="snippetshub.com"
+
+# Crispy Form Configuraton
+CRISPY_FAIL_SILENTLY = not DEBUG
 
 
 """ # Project Third Party Packages Configurations # """

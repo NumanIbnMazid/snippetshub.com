@@ -296,14 +296,14 @@ var navbarInit = function navbarInit() {
         backgroundImage = _window$getComputedSt.backgroundImage;
 
     var transition = 'background-color 0.35s ease';
-    navbar.style.backgroundImage = 'navbar-klean'; // Change navbar background color on scroll
+    navbar.style.backgroundImage = 'navbar-snippetshub'; // Change navbar background color on scroll
 
     window.addEventListener(Events.SCROLL, function () {
       var scrollTop = html.scrollTop;
       var alpha = scrollTop / windowHeight * 0.5;
       alpha >= 1 && (alpha = 1);
       navbar.style.backgroundColor = "rgba(".concat(colorRgb[0], ", ").concat(colorRgb[1], ", ").concat(colorRgb[2], ", ").concat(alpha, ")");
-      navbar.style.backgroundImage = alpha > 0 || utils.hasClass(navbarCollapse, 'show') ? backgroundImage : 'navbar-klean';
+      navbar.style.backgroundImage = alpha > 0 || utils.hasClass(navbarCollapse, 'show') ? backgroundImage : 'navbar-snippetshub';
       alpha > 0 || utils.hasClass(navbarCollapse, 'show') ? navbar.classList.add(shadowName) : navbar.classList.remove(shadowName);
     }); // Toggle bg class on window resize
 

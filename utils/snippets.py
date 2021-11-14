@@ -135,7 +135,7 @@ def autoslugWithFieldAndUUID(fieldname):
 
     def decorator(model):
         # some sanity checks first
-        assert hasattr(model, fieldname), f"Model has no field {fieldname!r}"
+        assert hasattr(model, fieldname), f"Model has no field {fieldname}"
         assert hasattr(model, "slug"), "Model is missing a slug field"
 
         @receiver(models.signals.pre_save, sender=model, weak=False)

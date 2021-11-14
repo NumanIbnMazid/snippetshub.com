@@ -27,3 +27,19 @@ SAFE_DELETE_INTERPRET_UNDELETED_OBJECTS_AS_CREATED = True
 """
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+"""
+----------------------- * Django Debug Toolbar Configurations * -----------------------
+"""
+
+INTERNAL_IPS = [
+    '127.0.0.1', '0.0.0.0'
+]
+
+"""
+----------------------- * Django Crispy Forms Configurations * -----------------------
+"""
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# CRISPY_CLASS_CONVERTERS = {'form-control': "form-control rounded-pill border-white input-box"}

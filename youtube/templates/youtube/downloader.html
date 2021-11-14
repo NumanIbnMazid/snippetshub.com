@@ -1,0 +1,30 @@
+{% extends 'user_panel/base.html' %}
+
+{% block content %}
+
+<section class="py-0">
+
+    <h1>Title: {{ additional_context.title }}</h1>
+
+    {% comment %}
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {% crispy form %}
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+    </div>
+    {% endcomment %}
+
+    <h1>{{ context }}</h1>
+
+    <div class="container">
+        <div class="row flex-center">
+            <div class="col-lg-10 mb-5">
+                {% include 'user_panel/snippets/forms.html' %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
