@@ -48,3 +48,7 @@
     padding-left: 1.5rem;
     vertical-align: middle;
 }
+
+.hide {
+    display: none !important;
+}

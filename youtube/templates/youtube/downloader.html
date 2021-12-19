@@ -1,30 +1,95 @@
 {% extends 'user_panel/base.html' %}
 
+{% load static %}
+
 {% block content %}
 
 <section class="py-0">
 
-    <h1>Title: {{ additional_context.title }}</h1>
-
-    {% comment %}
-    <div class="container">
-        <form method="post">
-            {% csrf_token %}
-            {% crispy form %}
-            <button type="submit" class="btn btn-primary">Sign in</button>
-        </form>
-    </div>
-    {% endcomment %}
-
-    <h1>{{ context }}</h1>
-
     <div class="container">
         <div class="row flex-center">
             <div class="col-lg-10 mb-5">
-                {% include 'user_panel/snippets/forms.html' %}
+                <form action="{% url 'youtube:youtube_downloader' %}" method="POST" id="youtubeDownloaderForm">
+                    {% csrf_token %}
+
+                    {% include 'snippets/forms/form.html' %}
+
+                    <div class="row mt-5">
+                        <div class="col-4 mx-auto">
+                            <div class="d-grid">
+                                <button class="btn hover-top btn-glow btn-snippetshub rounded-pill" type="submit">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
+    <div class="ajaxProgress text-center hide">
+        <h3>Please wait..</h3>
+        <img src="{% static 'images/loader.gif' %}" alt="loading" style="height: 100px; width: 100px;" />
+    </div>
+
 </section>
+
+{% endblock %}
+
+{% block additional_scripts %}
+
+<script>
+    $(document).ready(function () {
+
+        // youtube downloader form
+        let youtubeDownloaderForm = $("#youtubeDownloaderForm")
+        // loader
+        var $loading = $('.ajaxProgress')
+
+        // Ajax request function
+        function ajaxRequest(form) {
+            // make loader visible
+            $loading.removeClass('hide');
+            // serialize the data for sending the form data.
+            var serializedData = form.serialize()
+            // make POST ajax call
+            $.ajax({
+                // contentType: "application/json; charset=utf-8",
+                // dataType: "json",
+                type: 'POST',
+                url: "{% url 'youtube:youtube_downloader' %}",
+                data: serializedData,
+                success: function (response) {
+                    htmlDataObject = {}
+                    // simulate HTML
+                    console.log("Showing Success Response")
+                    console.log(response)
+                    // hide loader
+                    $loading.addClass('hide');
+                },
+                error: function (response) {
+                    console.log("Showing Error Response")
+                    console.log(response)
+                    // hide loader
+                    $loading.addClass('hide');
+                }
+            })
+        }
+
+
+        /*
+        On submiting the form, send the POST ajax
+        request to server and after successfull submission
+        display the object.
+        */
+        $("#youtubeDownloaderForm").submit(function (e) {
+            // preventing from page reload and default actions
+            e.preventDefault()
+            // make ajax request
+            ajaxRequest(form = youtubeDownloaderForm)
+        })
+    })
+</script>
 
 {% endblock %}

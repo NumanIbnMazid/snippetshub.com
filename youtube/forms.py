@@ -1,6 +1,4 @@
 from django import forms
-from utils.mixins import CustomSimpleForm
 
-
-class YoutubeDownloaderForm(CustomSimpleForm):
-    url = forms.URLField(required=True)
+class YoutubeDownloaderForm(forms.Form):
+    youtube_url = forms.URLField(required=True)
