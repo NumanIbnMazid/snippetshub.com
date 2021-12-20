@@ -5,3 +5,4 @@
 * Implement effecient caching and minimal landing page (SEO Purpose)
 * Integrate get_absolute_url to all model
 * Add Translations
+* Bug: While proving youtube url that is not for single video, Like channel url, playlist url, it will not work.

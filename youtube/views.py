@@ -9,16 +9,17 @@ from django.contrib import messages
 from django.template.defaultfilters import filesizeformat
 from django.views.generic.edit import FormView
 from .forms import YoutubeDownloaderForm
+import requests
 # youtube_dl
 import youtube_dl
 
 
 class YoutubeDownloaderView(View):
     form_class = YoutubeDownloaderForm
-    
+
     def get_success_url(self):
         return reverse('youtube:youtube_downloader')
-    
+
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         return render(request, "youtube/downloader.html", context=context)
@@ -28,13 +29,12 @@ class YoutubeDownloaderView(View):
         try:
             if self.request.method == "POST":
                 youtube_url = request.POST.get("youtube_url")
-                
+
                 # validate if url is valid youtube url
                 regex = r'^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+'
                 if not re.match(regex, youtube_url):
-                    print("exception in youtube_url ***********")
                     return render(request, "snippets/handlers/response-error.html", context={"message": "Invalid URL!"})
-                
+
                 ydl_opts = {}
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                     meta = ydl.extract_info(youtube_url, download=False)
@@ -55,24 +55,29 @@ class YoutubeDownloaderView(View):
                         'video_url': m['url']
                     })
                 video_audio_streams = video_audio_streams[::-1]
-
+                # prepare context data
                 context = {
                     'title': meta.get('title', None),
+                    'webpage_url': meta.get('webpage_url', None),
+                    'video_id': meta.get('display_id', None),
                     'streams': video_audio_streams,
                     'description': meta.get('description'),
+                    'upload_date': meta.get('upload_date'),
+                    'uploader': meta.get('uploader'),
+                    'uploader_url': meta.get('uploader_url'),
+                    'categories': meta.get('categories'),
+                    'tags': meta.get('tags'),
                     'likes': f'{int(meta.get("like_count", 0)):,}',
                     'dislikes': f'{int(meta.get("dislike_count", 0)):,}',
-                    'thumb': meta.get('thumbnails')[3]['url'],
+                    'thumbnail': meta.get('thumbnail'),
+                    'thumbnails': meta.get('thumbnails'),
                     'duration': round(int(meta.get('duration', 1))/60, 2),
                     'views': f'{int(meta.get("view_count")):,}'
                 }
                 return render(request, "youtube/response-data.html", context=context)
         except Exception as e:
-            print(f"*** Exception: {e} ***")
-        
-        return render(request, "snippets/handlers/response-error.html", context={"message": f"Something went wrong! {str(e)}"})
-        
-    
+            return render(request, "snippets/handlers/response-error.html", context={"message": f"Something went wrong! {str(e)}"})
+
     def get_context_data(self, **kwargs):
         context = {}
         context['page_title'] = "Youtube Downloader"

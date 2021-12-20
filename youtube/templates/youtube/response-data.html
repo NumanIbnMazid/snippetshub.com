@@ -1,4 +1,153 @@
-<div class="text-center">
-    <h1>Response Section</h1>
-    <h2>{{ title }} || TITLE HERE</h2>
+<div class="container">
+    <div class="card">
+        {% if video_id %}
+        <!-- Iframe -->
+        <iframe class="card-img-top" width="420" height="420" src="https://www.youtube.com/embed/{{ video_id }}"
+            frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen>
+        </iframe>
+        {% endif %}
+        <div class="card-body text-center mt-2">
+            <!-- Video Title -->
+            <h5 class="card-title">{{ title|safe }}</h5>
+
+            <!-- Video Details -->
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="download-tab" data-bs-toggle="tab" data-bs-target="#download"
+                        role="tab" aria-controls="download" aria-selected="true">Download</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="description-tab" data-bs-toggle="tab" data-bs-target="#description"
+                        role="tab" aria-controls="description" aria-selected="false">Description</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tags-tab" data-bs-toggle="tab" data-bs-target="#tags" role="tab"
+                        aria-controls="tags" aria-selected="false">Tags</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="otherInfo-tab" data-bs-toggle="tab" data-bs-target="#otherInfo"
+                        role="tab" aria-controls="otherInfo" aria-selected="false">Other Information</button>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content py-4">
+                <div class="tab-pane fade show active" id="download" role="tabpanel" aria-labelledby="download-tab">
+                    <div class="d-flex align-items-start">
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            <button class="nav-link active" id="v-pills-video-tab" data-bs-toggle="pill"
+                                data-bs-target="#v-pills-video" type="button" role="tab" aria-controls="v-pills-video"
+                                aria-selected="true">Video</button>
+                            <button class="nav-link" id="v-pills-audio-tab" data-bs-toggle="pill"
+                                data-bs-target="#v-pills-audio" type="button" role="tab" aria-controls="v-pills-audio"
+                                aria-selected="false">Audio</button>
+                        </div>
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-video" role="tabpanel"
+                                aria-labelledby="v-pills-video-tab">
+                                <div class="card card-body">
+                                    <p class="card-text">Video Files Here</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-audio" role="tabpanel"
+                                aria-labelledby="v-pills-audio-tab">
+                                <div class="card card-body">
+                                    <p class="card-text">Audio Files Here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="description" role="tabpanel" aria-labelledby="description-tab">
+                    <div class="card card-body text-start">
+                        <p class="card-text">{{ description|safe|linebreaks }}</p>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tags" role="tabpanel" aria-labelledby="tags-tab">
+                    <div class="card card-body">
+                        <ul>
+                            {% for tag in tags %}
+                            <li class="badge bg-primary m-1">{{ tag }}</li>
+                            {% empty %}
+                            <div class="alert alert-danger text-center" role="alert">
+                                No tags found!
+                            </div>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane" id="otherInfo" role="tabpanel" aria-labelledby="otherInfo-tab">
+                    <div class="card card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold text-start">Video ID</td>
+                                        <td class="text-start">{{ video_id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" class="fw-bold text-start">Webpage URL</td>
+                                        <td class="text-start">
+                                            <a href="{{ webpage_url }}" target="_blank">{{ webpage_url }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start">Uploaded at</td>
+                                        <td class="text-start">{{ upload_date }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start">Uploader</td>
+                                        <td class="text-start">{{ uploader }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start">Uploader URL</td>
+                                        <td class="text-start">
+                                            <a href="{{ uploader_url }}" target="_blank">{{ uploader_url }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start">Categories</td>
+                                        <td class="text-start">{{ categories }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start">Likes</td>
+                                        <td class="text-start">{{ likes }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start">Dislikes</td>
+                                        <td class="text-start">{{ dislikes }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start">Duration</td>
+                                        <td class="text-start">{{ duration }} min</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start">Views</td>
+                                        <td class="text-start">{{ views }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-start">Thumbnail</td>
+                                        <td class="text-start">
+                                            <img src="{{ thumbnail }}" alt="{{ thumbnail }}" class="img-thumbnail">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">An item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+        </ul>
+        <div class="card-body">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+        </div>
+    </div>
 </div>
