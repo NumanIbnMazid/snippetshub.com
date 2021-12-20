@@ -52,3 +52,25 @@
 .hide {
     display: none !important;
 }
+
+/* for alpine js show components */
+[x-cloak] {
+    display: none !important;
+}
+
+/* loader indicator visibility for htmx */
+.htmx-indicator {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+    display: none;
+}
+
+.htmx-request .htmx-indicator {
+    opacity: 1;
+    display: flow-root;
+}
+
+.htmx-request.htmx-indicator {
+    opacity: 1;
+    display: flow-root;
+}

@@ -8,16 +8,14 @@
 
     <div class="container">
         <div class="row flex-center">
-            <div class="col-lg-10 mb-5">
+            <div class="col-lg-10 mb-5" hx-target="#responseData" hx-swap="innerHTML">
                 <form action="{% url 'youtube:youtube_downloader' %}" method="POST" id="youtubeDownloaderForm">
-                    {% csrf_token %}
-
                     {% include 'snippets/forms/form.html' %}
-
                     <div class="row mt-5">
                         <div class="col-4 mx-auto">
                             <div class="d-grid">
-                                <button class="btn hover-top btn-glow btn-snippetshub rounded-pill" type="submit">
+                                <button class="btn hover-top btn-glow btn-snippetshub rounded-pill" id="submitBtn"
+                                    hx-indicator="#loaderIndicator" hx-post="{% url 'youtube:youtube_downloader' %}">
                                     Submit
                                 </button>
                             </div>
@@ -28,24 +26,36 @@
         </div>
     </div>
 
-    <div class="ajaxProgress text-center hide">
-        <h3>Please wait..</h3>
-        <img src="{% static 'images/loader.gif' %}" alt="loading" style="height: 100px; width: 100px;" />
+    <div class="text-center htmx-indicator" id="loaderIndicator">
+        <h5>Please wait...</h5>
+        <img src="{% static 'images/loader.gif' %}" alt="loading" style="height: 70px; width: 70px;" />
     </div>
+
+    <div id="responseData"></div>
 
 </section>
 
 {% endblock %}
 
 {% block additional_scripts %}
+<script>
+    $(function () {
+        $('#submitBtn').click(function () {
+            $("#responseData").html("");
+        });
+    });
+</script>
+{% endblock %}
 
+{% comment %}
+<!-- 
 <script>
     $(document).ready(function () {
 
         // youtube downloader form
         let youtubeDownloaderForm = $("#youtubeDownloaderForm")
         // loader
-        var $loading = $('.ajaxProgress')
+        let $loading = $('.ajaxProgress')
 
         // Ajax request function
         function ajaxRequest(form) {
@@ -90,6 +100,6 @@
             ajaxRequest(form = youtubeDownloaderForm)
         })
     })
-</script>
+</script> -->
 
-{% endblock %}
+{% endcomment %}
