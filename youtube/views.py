@@ -8,6 +8,7 @@ from django import forms
 from django.contrib import messages
 from django.template.defaultfilters import filesizeformat
 from django.views.generic.edit import FormView
+from utils.file_categorizer import categorize_audio_video_files
 from .forms import YoutubeDownloaderForm
 import requests
 # youtube_dl
@@ -39,7 +40,10 @@ class YoutubeDownloaderView(View):
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                     meta = ydl.extract_info(youtube_url, download=False)
 
+                video_streams = []
+                audio_streams = []
                 video_audio_streams = []
+                
                 for m in meta['formats']:
                     file_size = m['filesize']
                     if file_size is not None:
@@ -48,19 +52,40 @@ class YoutubeDownloaderView(View):
                     resolution = 'Audio'
                     if m['height'] is not None:
                         resolution = f"{m['height']}x{m['width']}"
+                    # insert audio files
+                    if categorize_audio_video_files(m['ext']) == 'audio':
+                        audio_streams.append({
+                            'resolution': resolution,
+                            'extension': m['ext'],
+                            'file_size': file_size,
+                            'video_url': m['url']
+                        })
+                    # insert video files
+                    if categorize_audio_video_files(m['ext']) == 'video':
+                        video_streams.append({
+                            'resolution': resolution,
+                            'extension': m['ext'],
+                            'file_size': file_size,
+                            'video_url': m['url']
+                        })
+                    # insert video and audio files
                     video_audio_streams.append({
                         'resolution': resolution,
                         'extension': m['ext'],
                         'file_size': file_size,
                         'video_url': m['url']
                     })
+                    
                 video_audio_streams = video_audio_streams[::-1]
+                
                 # prepare context data
                 context = {
                     'title': meta.get('title', None),
                     'webpage_url': meta.get('webpage_url', None),
                     'video_id': meta.get('display_id', None),
                     'streams': video_audio_streams,
+                    'video_streams': video_streams,
+                    'audio_streams': audio_streams,
                     'description': meta.get('description'),
                     'upload_date': meta.get('upload_date'),
                     'uploader': meta.get('uploader'),
